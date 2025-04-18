@@ -1,9 +1,9 @@
 //=========================================================================
 // Name & Email must be EXACTLY as in Gradescope roster!
-// Name: 
-// Email: 
+// Name: Sangha Jeon
+// Email: sjeon065@ucr.edu
 // 
-// Assignment name: 
+// Assignment name:
 // Lab section: 
 // TA: 
 // 
@@ -20,12 +20,27 @@ module gen_tick # ( parameter SRC_FREQ = 5000, parameter TICK_FREQ = 1) (
 );
 
 // Declare registers and wires here
+reg toggle = 0;
+integer cnt = 0;
+integer tick_cnt = SRC_FREQ / (2 * TICK_FREQ);
 
 always @(posedge src_clk) begin
     // put your code for the multiplier here
+    // 1 hz = 50 seconds
+    // 2hz  = 25 seconds
+    if (enable == 1) begin
+        cnt <= cnt +1;
+
+        if (cnt >= tick_cnt-1) begin
+            cnt <= 0;
+            toggle <= ~toggle;
+        end
+    end
+    // cnt = tick_cnt, then reset cnt and keep going
+
 end
 
 // Change this assign statement to the actual tick value
-assign tick = src_clk;
+assign tick = toggle;
 
 endmodule
